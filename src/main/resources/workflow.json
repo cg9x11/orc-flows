@@ -1,0 +1,66 @@
+{
+  "nodes": [
+    {
+      "id": "node1",
+      "name": "Order Service",
+      "type": "RabbitMQServiceNode",
+      "typeVersion": 1,
+      "position": [100, 100],
+      "parameters": {
+        "requestQueue": "order_in",
+        "responseQueue": "order_out"
+      },
+      "credentials": {
+        "rabbitmq": {
+          "id": "rabbitMQ_credential_01",
+          "name": "RabbitMQ Credential"
+        }
+      }
+    },
+    {
+      "id": "node2",
+      "name": "HTTP API",
+      "type": "HttpRequestNode",
+      "typeVersion": 1,
+      "position": [700, 100],
+      "parameters": {
+        "apiUrl": "https://n8n.noe.asia/webhook/test"
+      }
+    },
+    {
+      "id": "node3",
+      "name": "Merge Data",
+      "type": "MergeNode",
+      "typeVersion": 1,
+      "position": [400, 100],
+      "parameters": {
+        "expectedInputs": 2
+      }
+    }
+  ],
+  "connections": {
+    "node1": {
+      "main": [
+        [
+          {
+            "node": "node2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node2": {
+      "main": [
+        [
+          {
+            "node": "node3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "startNode": "node1"
+}
